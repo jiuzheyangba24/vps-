@@ -1,0 +1,35 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+ipv6: false
+dns:
+  enable: true
+  ipv6: false
+  nameserver:
+    - 1.1.1.1
+    - 8.8.8.8
+
+proxies:
+  - name: "Remote-Node-01"
+    type: vless
+    server: "YOUR_SERVER_IP_OR_DOMAIN"
+    port: 443
+    uuid: "YOUR_CLIENT_UUID"
+    network: tcp
+    tls: true
+    servername: "www.cloudflare.com"
+    client-fingerprint: "chrome"
+    reality-opts:
+      public-key: "YOUR_SERVER_PUBLIC_KEY"
+      short-id: "YOUR_SHORT_ID"
+    flow: xtls-rprx-vision
+    udp: true
+
+proxy-groups:
+  - name: PROXY
+    type: select
+    proxies:
+      - "Remote-Node-01"
+
+rules:
+  - MATCH,PROXY

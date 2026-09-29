@@ -1,0 +1,18 @@
+[Unit]
+Description=WireGuard traffic monitor
+After=network-online.target wg-quick@wg0.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/wg-monitor
+ExecStart=/usr/bin/python3 /opt/wg-monitor/app.py
+Environment=WG_MONITOR_HOST=0.0.0.0
+Environment=WG_MONITOR_PORT=8787
+Environment=WG_MONITOR_USER=admin
+EnvironmentFile=/etc/wg-monitor.env
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
